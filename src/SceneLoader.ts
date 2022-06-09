@@ -10,7 +10,7 @@ export class SceneLoader {
     private _camera: ArcRotateCamera;
 
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, isWorker: boolean = false) {
 
         this._engine = new Engine(canvas, false, {}, true);
 
@@ -79,6 +79,7 @@ export class SceneLoader {
         });
 
         if ((typeof BABYLON != "undefined" && BABYLON.Inspector) || typeof INSPECTOR != "undefined")
-            this._scene.debugLayer.show();
+            if (!isWorker)
+                this._scene.debugLayer.show();
     }
 }

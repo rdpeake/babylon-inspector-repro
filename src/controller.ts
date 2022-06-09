@@ -3,7 +3,7 @@ import { SceneLoader } from './SceneLoader'
 export class Controller {
 	public static create(): void {
 		var worker = new Worker(new URL('../worker/worker.ts', import.meta.url));
-		var canvas: HTMLCanvasElement = <any>document.getElementById('renderCanvas');
+		var canvas: any = <any>document.getElementById('renderCanvas');
 		var offscreen = canvas.transferControlToOffscreen();
 		worker.postMessage({
 			type: 'init',

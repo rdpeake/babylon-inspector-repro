@@ -8,13 +8,68 @@ self.window = {
     addEventListener: function (event, fn, opt) {
         bindHandler('window', event, fn, opt);
     },
+    removeEventListener: function (event, fn, opt) {
+        //noop
+    },
     setTimeout: self.setTimeout.bind(self),
     PointerEvent: true,
+    matchMedia: function (q) {
+        return { matches: true };
+    }
 };
+
+let mediaMatches = [];
+
+self.matchMedia = function (q) {
+    console.log("MEDIAMATCH: " + q);
+
+    if (!mediaMatches.some(x => x.media === q)) {
+        self.postMessage({
+            type: 'matchMedia',
+            query: q,
+        });
+
+
+        return {
+            media: q, matches: true,
+            addEventListener: function (event, fn, opt) {
+                bindHandler('matchMedia:' + q, event, fn, opt);
+            },
+            removeEventListener: function () { },
+            addListener: function (fn, opt) {
+                bindHandler('matchMedia:' + q, 'change', fn, opt);
+            },
+            removeListener: function () {
+
+            }
+        };
+    }
+
+    let x = mediaMatches.find(x => x.media === q);
+    if ('addEventListener' in x) {
+        return x;
+    }
+
+    x.addEventListener = function (event, fn, opt) {
+        bindHandler('matchMedia:' + q, event, fn, opt);
+    }
+    x.removeEventListener = function () { }
+    x.addListener = function (fn, opt) {
+        bindHandler('matchMedia:' + q, 'change', fn, opt);
+    }
+    x.removeListener = function () {
+
+    }
+
+    return x;
+}
 
 self.document = {
     addEventListener: function (event, fn, opt) {
         bindHandler('document', event, fn, opt);
+    },
+    removeEventListener: function (event, fn, opt) {
+        //noop
     },
     // Uses to detect wheel event like at src/Inputs/scene.inputManager.ts:797
     createElement: function () {
@@ -23,6 +78,7 @@ self.document = {
         };
     },
     defaultView: self.window,
+    elementFromPoint: () => { }
 };
 
 // Not works without it
@@ -201,6 +257,6 @@ function init(data) {
     prepareCanvas({ canvas, width: data.width, height: data.height });
 
 
-    sceneLoader = new SceneLoader(canvas);
+    sceneLoader = new SceneLoader(canvas, true);
 }
 

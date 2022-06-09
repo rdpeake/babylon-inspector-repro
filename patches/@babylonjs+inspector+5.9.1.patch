@@ -1,0 +1,21 @@
+diff --git a/node_modules/@babylonjs/inspector/dist/babylon.inspector.bundle.max.js b/node_modules/@babylonjs/inspector/dist/babylon.inspector.bundle.max.js
+index c2f45ea..3b638c5 100644
+--- a/node_modules/@babylonjs/inspector/dist/babylon.inspector.bundle.max.js
++++ b/node_modules/@babylonjs/inspector/dist/babylon.inspector.bundle.max.js
+@@ -52562,6 +52562,7 @@ function removeStyleElement(styleElement) {
+ 
+ 
+ function domAPI(options) {
++	if (typeof document === 'undefined') return {update: (x) => {}, remove: () => {}}
+   var styleElement = options.insertStyleElement(options);
+   return {
+     update: function update(obj) {
+@@ -74037,7 +74038,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_gui_2D_adtInstrumentation__;
+ /******/ 	
+ /******/ 	/* webpack/runtime/jsonp chunk loading */
+ /******/ 	(() => {
+-/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
++/******/ 		__webpack_require__.b = typeof document === 'undefined' ? self.location.href : document.baseURI || self.location.href;
+ /******/ 		
+ /******/ 		// object to store loaded and loading chunks
+ /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched

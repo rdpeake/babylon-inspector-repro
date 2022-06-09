@@ -1,0 +1,12 @@
+diff --git a/node_modules/@babylonjs/gui-editor/dist/babylon.guiEditor.max.js b/node_modules/@babylonjs/gui-editor/dist/babylon.guiEditor.max.js
+index 8d6ffcc..e597770 100644
+--- a/node_modules/@babylonjs/gui-editor/dist/babylon.guiEditor.max.js
++++ b/node_modules/@babylonjs/gui-editor/dist/babylon.guiEditor.max.js
+@@ -49437,6 +49437,7 @@ function removeStyleElement(styleElement) {
+ 
+ 
+ function domAPI(options) {
++	if (typeof document === 'undefined') return {update: (x) => {}, remove: () => {}}
+   var styleElement = options.insertStyleElement(options);
+   return {
+     update: function update(obj) {
